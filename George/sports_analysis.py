@@ -21,7 +21,7 @@ sports_df['sports_participation'].replace({
     "one+": 1,
     "three+": 2}, inplace=True)
 
-sports_df['year'] = sports_df['year'].apply(lambda x: int(x[:4]))
+#sports_df['year'] = sports_df['year'].apply(lambda x: int(x[:4]))
 sports_df = sports_df.dropna()
 sports_df = sports_df.sort_values(['area', 'year', 'sports_participation'])
 
@@ -35,7 +35,8 @@ for name, group in sports_df.groupby(['area', 'year']):
         group['percentage'] /= response_rate
         mod_df = mod_df.append(group)
 mod_df = mod_df.reset_index(drop=True)
-
+print(mod_df)
+mod_df.to_csv('london_sports_participation_cleaned.csv')
 # p_vals = {}
 
 # def do_perm_test(year_low, year_high, data):
