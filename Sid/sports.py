@@ -9,7 +9,7 @@ plt.style.use('ggplot')
 
 filepath = os.path.abspath('london_sports_participation_cleaned.csv')
 sports_df = pd.read_csv(filepath)
-print(sports_df)
+#print(sports_df)
 
 years = sports_df['year'].unique().tolist()
 ind = np.arange(len(years))
@@ -34,11 +34,11 @@ for region in regions:
     plt.xticks(ind, years, rotation=30, fontsize='small')
     plt.ylabel('Percentages')
     plt.xlabel('Years')
-    plt.legend(loc='best')
+    plt.legend(loc='upper right')
     plt.title(region + ' Region Sports Participation')
 
     plt.savefig(region + '.png')
-    #plt.show()
+    plt.show()
 
     '''
     zeroes_before = zeroes[0:5]
