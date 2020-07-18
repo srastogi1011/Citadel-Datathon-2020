@@ -2,6 +2,8 @@ import itertools
 from pprint import pprint
 import pandas as pd
 import numpy as np
+import geopandas as gpd
+import matplotlib.pyplot as plt
 
 df = pd.read_csv('obesity/childhood-obesity-borough-filtered.csv', header=0, index_col=1)
 
@@ -24,9 +26,24 @@ def do_perm_test(year_low, year_high, data):
     all_stats = np.array(all_stats)
     return np.sum(all_stats <= test_stat) / len(all_stats)
 
+def do_t_test(year, data):
+    pass
+
 for borough in valid_bors:
     bor_df = df[df['Local Authority'] == borough]
-    p_vals[borough] = do_perm_test(2012, 2015, bor_df)
+    p_vals[borough] = do_perm_test(2012, 2018, bor_df)
 
 pprint(p_vals)
+p_df = pd.DataFrame(list(p_vals.items()), columns=['NAME', 'p_vals'])
 
+
+map_df = gpd.read_file('statistical-gis-boundaries-london/statistical-gis-boundaries-london/ESRI/London_Borough_Excluding_MHW.shp')
+map_df = map_df.sort_values('NAME').reset_index(drop=True)
+upper_f = lambda x: " ".join([w[0].upper() + w[1:] for w in x.split(" ")])
+map_df['NAME'] = map_df['NAME'].apply(upper_f)
+
+merged = map_df.set_index('NAME').join(p_df.set_index('NAME'), how='inner')
+
+vmin, vmax = 0, 1
+merged.plot(column='p_vals', cmap='Blues', linewidth=0.8, edgecolor='0.8')
+plt.show()
