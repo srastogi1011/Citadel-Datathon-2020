@@ -28,7 +28,7 @@ for region in regions:
     #ones = ones - threes
     
     plt.bar(ind, zeroes, width=0.8, label='0', color='red')
-    plt.bar(ind, ones, width=0.8, label='1+', color='green', bottom=zeroes)
+    plt.bar(ind, ones, width=0.8, label='1-2', color='green', bottom=zeroes)
     plt.bar(ind, threes, width=0.8, label='3+', color='blue', bottom=zeroes+ones)
 
     plt.xticks(ind, years, rotation=30, fontsize='small')
